@@ -1,0 +1,70 @@
+{
+  "name": "@documint/grapesjs-component-barcode",
+  "license": "MIT",
+  "version": "1.0.1",
+  "description": "Barcode component for grapesjs",
+  "author": "Documint",
+  "main": "dist/grapesjs-component-barcode.min.js",
+  "repository": "git@github.com:documint-me/grapesjs-component-barcode.git",
+  "scripts": {
+    "lint": "eslint src",
+    "v:patch": "npm version --no-git-tag-version patch",
+    "build": "npm run v:patch && webpack --env.production",
+    "start": "webpack-dev-server --open --progress --colors"
+  },
+  "keywords": [
+    "grapesjs",
+    "plugin",
+    "barcode"
+  ],
+  "babel": {
+    "presets": [
+      "env"
+    ],
+    "plugins": [
+      "transform-object-rest-spread",
+      "babel-plugin-transform-runtime"
+    ]
+  },
+  "peerDependencies": {
+    "grapesjs": "0.18.x"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^8.18.0",
+    "html-webpack-plugin": "^2.30.1",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.4"
+  },
+  "dependencies": {},
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "browser": true,
+      "commonjs": true,
+      "node": true,
+      "es6": true,
+      "jest": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module"
+    },
+    "rules": {
+      "no-console": "off",
+      "strict": [
+        "error",
+        "global"
+      ],
+      "curly": [
+        "error",
+        "multi-line"
+      ]
+    },
+    "overrides": []
+  }
+}
