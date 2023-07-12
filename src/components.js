@@ -71,6 +71,8 @@ export default (editor, opts = {}) => {
           this.trigger("change:script");
         });
       },
+
+      afterInit() {},
     },
   });
 };
