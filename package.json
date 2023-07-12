@@ -1,7 +1,7 @@
 {
   "name": "@documint/grapesjs-component-barcode",
   "license": "MIT",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Barcode component for grapesjs",
   "author": "Documint",
   "main": "dist/grapesjs-component-barcode.min.js",

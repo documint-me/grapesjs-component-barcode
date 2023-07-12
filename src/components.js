@@ -7,61 +7,77 @@ export default (editor, opts = {}) => {
   const barcodeProps = {
     format: [
       {
+        id: "CODE128",
         name: "CODE128",
       },
       {
+        id: "CODE39",
         name: "CODE39",
       },
       {
+        id: "EAN13",
         name: "EAN13",
       },
       {
+        id: "UPC",
         name: "UPC",
       },
       {
+        id: "EAN8",
         name: "EAN8",
       },
       {
+        id: "EAN5",
         name: "EAN5",
       },
       {
+        id: "EAN2",
         name: "EAN2",
       },
       {
+        id: "ITF14",
         name: "ITF14",
       },
       {
+        id: "MSI",
         name: "MSI",
       },
       {
+        id: "pharmacode",
         name: "pharmacode",
       },
       {
+        id: "codabar",
         name: "codabar",
       },
     ],
     code: "123456789012",
     lineColor: "#0aa",
-    width: 4,
-    height: 40,
+    width: 2,
+    height: 100,
     fontSize: 20,
     textMargin: 2,
     textAlign: [
       {
+        id: "left",
         name: "left",
       },
       {
+        id: "center",
         name: "center",
       },
       {
+        id: "right",
         name: "right",
       },
     ],
     textPosition: [
       {
+        id: "top",
         name: "top",
       },
       {
+        id: "bottom",
         name: "bottom",
       },
     ],
