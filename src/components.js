@@ -5,11 +5,66 @@ export default (editor, opts = {}) => {
   const { keys } = Object;
 
   const barcodeProps = {
+    format: [
+      {
+        name: "CODE128",
+      },
+      {
+        name: "CODE39",
+      },
+      {
+        name: "EAN13",
+      },
+      {
+        name: "UPC",
+      },
+      {
+        name: "EAN8",
+      },
+      {
+        name: "EAN5",
+      },
+      {
+        name: "EAN2",
+      },
+      {
+        name: "ITF14",
+      },
+      {
+        name: "MSI",
+      },
+      {
+        name: "pharmacode",
+      },
+      {
+        name: "codabar",
+      },
+    ],
     code: "123456789012",
     lineColor: "#0aa",
     width: 4,
     height: 40,
     fontSize: 20,
+    textMargin: 2,
+    textAlign: [
+      {
+        name: "left",
+      },
+      {
+        name: "center",
+      },
+      {
+        name: "right",
+      },
+    ],
+    textPosition: [
+      {
+        name: "top",
+      },
+      {
+        name: "bottom",
+      },
+    ],
     displayValue: true,
   };
 
@@ -30,6 +85,10 @@ export default (editor, opts = {}) => {
     name,
   }));
 
+  barcodeProps.format = "CODE128";
+  barcodeProps.textAlign = "center";
+  barcodeProps.textPosition = "bottom";
+
   domc.addType(cmpId, {
     model: {
       defaults: opts.props({
@@ -48,6 +107,10 @@ export default (editor, opts = {}) => {
               lineColor: "{[ lineColor ]}",
               displayValue: bool("{[ displayValue ]}"),
               background: "transparent",
+              format: "{[ format ]}",
+              textMargin: int("{[ textMargin ]}"),
+              textAlign: "{[ textAlign ]}",
+              textPosition: "{[ textPosition ]}",
             };
 
             JsBarcode(this, "{[ code ]}", config);
