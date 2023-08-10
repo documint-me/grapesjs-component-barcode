@@ -5,56 +5,67 @@ export default (editor, opts = {}) => {
   const { keys } = Object;
 
   const barcodeProps = {
-    format: [
-      {
-        id: "CODE128",
-        name: "CODE128",
-      },
-      {
-        id: "CODE39",
-        name: "CODE39",
-      },
-      {
-        id: "EAN13",
-        name: "EAN13",
-      },
-      {
-        id: "UPC",
-        name: "UPC",
-      },
-      {
-        id: "EAN8",
-        name: "EAN8",
-      },
-      {
-        id: "EAN5",
-        name: "EAN5",
-      },
-      {
-        id: "EAN2",
-        name: "EAN2",
-      },
-      {
-        id: "ITF14",
-        name: "ITF14",
-      },
-      {
-        id: "MSI",
-        name: "MSI",
-      },
-      {
-        id: "pharmacode",
-        name: "pharmacode",
-      },
-      {
-        id: "codabar",
-        name: "codabar",
-      },
-    ],
+    //format: [
+    //  {
+    //    id: "CODE128",
+    //    name: "CODE128",
+    //    default: "123456789012",
+    //  },
+    //  {
+    //    id: "CODE39",
+    //    name: "CODE39",
+    //    default: "",
+    //  },
+    //  {
+    //    id: "EAN13",
+    //    name: "EAN13",
+    //    default: "1234567890128",
+    //  },
+    //  {
+    //    id: "UPC",
+    //    name: "UPC",
+    //    default: "123456789012",
+    //  },
+    //  {
+    //    id: "EAN8",
+    //    name: "EAN8",
+    //    default: "",
+    //  },
+    //  {
+    //    id: "EAN5",
+    //    name: "EAN5",
+    //    default: "",
+    //  },
+    //  {
+    //    id: "EAN2",
+    //    name: "EAN2",
+    //    default: "",
+    //  },
+    //  {
+    //    id: "ITF14",
+    //    name: "ITF14",
+    //    default: "",
+    //  },
+    //  {
+    //    id: "MSI",
+    //    name: "MSI",
+    //    default: "",
+    //  },
+    //  {
+    //    id: "pharmacode",
+    //    name: "pharmacode",
+    //    default: "1234",
+    //  },
+    //  {
+    //    id: "codabar",
+    //    name: "codabar",
+    //    default: "",
+    //  },
+    //],
     code: "123456789012",
     lineColor: "#0aa",
-    width: 2,
-    height: 100,
+    // width: 2,
+    // height: 100,
     fontSize: 20,
     textMargin: 2,
     textAlign: [
@@ -106,52 +117,43 @@ export default (editor, opts = {}) => {
   barcodeProps.textPosition = "bottom";
 
   domc.addType(cmpId, {
+    extend: "image",
     model: {
       defaults: opts.props({
         ...barcodeProps,
-        tagName: "canvas",
         barcodesrc: opts.script,
         droppable: false,
         traits,
-        script() {
-          const int = (num) => parseInt(num, 10) || 0;
-          const bool = (val) => !!val;
-          const init = () => {
-            const config = {
-              height: int("{[ height ]}"),
-              width: int("{[ width ]}"),
-              lineColor: "{[ lineColor ]}",
-              displayValue: bool("{[ displayValue ]}"),
-              background: "transparent",
-              format: "{[ format ]}",
-              textMargin: int("{[ textMargin ]}"),
-              textAlign: "{[ textAlign ]}",
-              textPosition: "{[ textPosition ]}",
-            };
-
-            JsBarcode(this, "{[ code ]}", config);
-          };
-
-          if (!window.JsBarcode) {
-            const scr = document.createElement("script");
-            scr.src = "{[ barcodesrc ]}";
-            scr.onload = init;
-            document.body.appendChild(scr);
-          } else {
-            init();
-          }
-        },
         ...opts.barcodeComponent,
       }),
 
       init() {
         const events = traits.map((i) => `change:${i.name}`).join(" ");
-        this.on(events, () => {
-          this.trigger("change:script");
+        this.on(events, this.generateBarcodeImage);
+        this.generateBarcodeImage();
+        this.afterInit();
+      },
+
+      generateBarcodeImage() {
+        const params = new URLSearchParams({
+          code: this.get("code"),
+          // height: this.get("height"),
+          // width: this.get("width"),
+          fontSize: this.get("fontSize"),
+          lineColor: this.get("lineColor"),
+          displayValue: this.get("displayValue"),
+          // format: this.get("format"),
+          textMargin: this.get("textMargin"),
+          textAlign: this.get("textAlign"),
+          textPosition: this.get("textPosition"),
         });
+        this.set({ src: `${opts.api}?${params.toString()}` });
       },
 
       afterInit() {},
+    },
+    view: {
+      onActive(ev) {},
     },
   });
 };
