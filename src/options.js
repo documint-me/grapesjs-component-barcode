@@ -5,7 +5,7 @@ export default {
   // default options
   script:
     "https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js",
-  api: "http://localhost:5000/api/v1/barcodes",
+  api: "https://barcodes-xdm4ptfota-uc.a.run.app/api/v1/barcodes",
   // Object to extend the default block, eg. `{ label: '', ... }`
   // Pass a falsy value to avoid adding the block
   blockBarcode: {},

@@ -136,7 +136,6 @@ export default (editor, opts = {}) => {
 
       generateBarcodeImage() {
         const params = new URLSearchParams({
-          code: this.get("code"),
           // height: this.get("height"),
           // width: this.get("width"),
           fontSize: this.get("fontSize"),
@@ -147,7 +146,9 @@ export default (editor, opts = {}) => {
           textAlign: this.get("textAlign"),
           textPosition: this.get("textPosition"),
         });
-        this.set({ src: `${opts.api}?${params.toString()}` });
+        this.set({
+          src: `${opts.api}?code=${this.get("code")}&${params.toString()}`,
+        });
       },
 
       afterInit() {},
