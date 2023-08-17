@@ -1,67 +1,69 @@
 import { cmpId } from "./consts";
+import Barcode from "jsbarcode";
 
 export default (editor, opts = {}) => {
   const domc = editor.DomComponents;
   const { keys } = Object;
 
+  const formats = [
+    {
+      id: "CODE128",
+      name: "auto(CODE128)",
+      default: "123456789012",
+    },
+    {
+      id: "CODE39",
+      name: "CODE39",
+      default: "123456789012",
+    },
+    {
+      id: "EAN13",
+      name: "EAN13",
+      default: "1234567890128",
+    },
+    {
+      id: "UPC",
+      name: "UPC",
+      default: "123456789012",
+    },
+    {
+      id: "EAN8",
+      name: "EAN8",
+      default: "1234567",
+    },
+    {
+      id: "EAN5",
+      name: "EAN5",
+      default: "12345",
+    },
+    {
+      id: "EAN2",
+      name: "EAN2",
+      default: "12",
+    },
+    {
+      id: "ITF14",
+      name: "ITF14",
+      default: "1234567890124",
+    },
+    {
+      id: "MSI",
+      name: "MSI",
+      default: "123456789012",
+    },
+    {
+      id: "pharmacode",
+      name: "pharmacode",
+      default: "123456",
+    },
+    {
+      id: "codabar",
+      name: "codabar",
+      default: "123456789012",
+    },
+  ];
   const barcodeProps = {
-    //format: [
-    //  {
-    //    id: "CODE128",
-    //    name: "CODE128",
-    //    default: "123456789012",
-    //  },
-    //  {
-    //    id: "CODE39",
-    //    name: "CODE39",
-    //    default: "",
-    //  },
-    //  {
-    //    id: "EAN13",
-    //    name: "EAN13",
-    //    default: "1234567890128",
-    //  },
-    //  {
-    //    id: "UPC",
-    //    name: "UPC",
-    //    default: "123456789012",
-    //  },
-    //  {
-    //    id: "EAN8",
-    //    name: "EAN8",
-    //    default: "",
-    //  },
-    //  {
-    //    id: "EAN5",
-    //    name: "EAN5",
-    //    default: "",
-    //  },
-    //  {
-    //    id: "EAN2",
-    //    name: "EAN2",
-    //    default: "",
-    //  },
-    //  {
-    //    id: "ITF14",
-    //    name: "ITF14",
-    //    default: "",
-    //  },
-    //  {
-    //    id: "MSI",
-    //    name: "MSI",
-    //    default: "",
-    //  },
-    //  {
-    //    id: "pharmacode",
-    //    name: "pharmacode",
-    //    default: "1234",
-    //  },
-    //  {
-    //    id: "codabar",
-    //    name: "codabar",
-    //    default: "",
-    //  },
-    //],
+    format: formats,
     code: "123456789012",
     lineColor: "#0aa",
     // width: 2,
@@ -130,6 +132,8 @@ export default (editor, opts = {}) => {
       init() {
         const events = traits.map((i) => `change:${i.name}`).join(" ");
         this.on(events, this.generateBarcodeImage);
+        this.on("change:format", this.setDefaults);
+        this.on("change:code", this.validateBarcode);
         this.generateBarcodeImage();
         this.afterInit();
       },
@@ -141,7 +145,7 @@ export default (editor, opts = {}) => {
           fontSize: this.get("fontSize"),
           lineColor: this.get("lineColor"),
           displayValue: this.get("displayValue"),
-          // format: this.get("format"),
+          format: this.get("format"),
           textMargin: this.get("textMargin"),
           textAlign: this.get("textAlign"),
           textPosition: this.get("textPosition"),
@@ -149,6 +153,23 @@ export default (editor, opts = {}) => {
         this.set({
           src: `${opts.api}?code=${this.get("code")}&${params.toString()}`,
         });
+      },
+
+      validateBarcode() {
+        const canvas = document.createElement("canvas");
+        try {
+          Barcode(canvas, this.get("code"), { format: this.get("format") });
+          return true;
+        } catch (error) {
+          this.setDefaults();
+          return false;
+        }
+      },
+
+      setDefaults() {
+        const format = this.get("format");
+        const code = formats.find((f) => f.id === format).default;
+        this.set({ code });
       },
 
       afterInit() {},
