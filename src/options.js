@@ -29,4 +29,5 @@ export default {
   props: (i) => i,
   // Component props
   barcodeComponent: {},
+  formatInfo: "Static values will be validated in the editor and reset to default if format is incorrect. Variable values will default to auto if format is incorrect."
 };
