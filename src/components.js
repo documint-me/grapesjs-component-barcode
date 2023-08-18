@@ -8,7 +8,7 @@ export default (editor, opts = {}) => {
   const formats = [
     {
       id: "CODE128",
-      name: "auto(CODE128)",
+      name: `auto(CODE128)`,
       default: "123456789012",
     },
     {
@@ -100,19 +100,23 @@ export default (editor, opts = {}) => {
   const getTraitType = (value) => {
     if (typeof value == "number") return "number";
     if (typeof value == "boolean") return "checkbox";
-    if (typeof value == "object") return "select";
+    if (typeof value == "object") return "info-select";
     if (value.startsWith("#")) return "color";
     return "text";
   };
 
-  const traits = keys(barcodeProps).map((name) => ({
-    changeProp: 1,
-    type: getTraitType(barcodeProps[name]),
-    options: barcodeProps[name],
-    min: 0,
-    placeholder: "placeholder",
-    name,
-  }));
+  const traits = keys(barcodeProps).map((name) => {
+    const title = name === "format" ? { info: opts.formatInfo } : {};
+    return {
+      changeProp: 1,
+      type: getTraitType(barcodeProps[name]),
+      options: barcodeProps[name],
+      min: 0,
+      placeholder: "placeholder",
+      name,
+      ...title,
+    };
+  });
 
   barcodeProps.format = "CODE128";
   barcodeProps.textAlign = "center";
