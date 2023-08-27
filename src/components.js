@@ -66,8 +66,8 @@ export default (editor, opts = {}) => {
     format: formats,
     code: "123456789012",
     lineColor: "#0aa",
-    // width: 2,
-    // height: 100,
+    width: 2,
+    height: 100,
     fontSize: 20,
     textMargin: 2,
     textAlign: [
@@ -107,6 +107,12 @@ export default (editor, opts = {}) => {
 
   const traits = keys(barcodeProps).map((name) => {
     const title = name === "format" ? { info: opts.formatInfo } : {};
+    const label =
+      name === "width"
+        ? { label: "Bar Width(px)" }
+        : name === "height"
+        ? { label: "Bar Height(px)" }
+        : {};
     return {
       changeProp: 1,
       type: getTraitType(barcodeProps[name]),
@@ -115,6 +121,7 @@ export default (editor, opts = {}) => {
       placeholder: "placeholder",
       name,
       ...title,
+      ...label,
     };
   });
 
@@ -138,14 +145,15 @@ export default (editor, opts = {}) => {
         this.on(events, this.generateBarcodeImage);
         this.on("change:format", this.setDefaults);
         this.on("change:code", this.validateBarcode);
+        // Lock aspect ratio
         this.generateBarcodeImage();
         this.afterInit();
       },
 
       generateBarcodeImage() {
         const params = new URLSearchParams({
-          // height: this.get("height"),
-          // width: this.get("width"),
+          height: this.get("height"),
+          width: this.get("width"),
           fontSize: this.get("fontSize"),
           lineColor: this.get("lineColor"),
           displayValue: this.get("displayValue"),
