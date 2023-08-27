@@ -145,8 +145,9 @@ export default (editor, opts = {}) => {
         this.on(events, this.generateBarcodeImage);
         this.on("change:format", this.setDefaults);
         this.on("change:code", this.validateBarcode);
-        // Lock aspect ratio
+        this.on("change:code change:width change:height", this.setAspectRatio);
         this.generateBarcodeImage();
+        this.setAspectRatio();
         this.afterInit();
       },
 
@@ -182,6 +183,18 @@ export default (editor, opts = {}) => {
         const format = this.get("format");
         const code = formats.find((f) => f.id === format).default;
         this.set({ code });
+      },
+
+      getAscpectRatio() {
+        const w = parseFloat(this.get("width")) * this.get("code").length;
+        const h = this.get("height");
+
+        if (w > h) return `${w} / ${h}`;
+        return `${h} / ${w}`;
+      },
+
+      setAspectRatio() {
+        this.addStyle({ "aspect-ratio": this.getAscpectRatio() });
       },
 
       afterInit() {},
