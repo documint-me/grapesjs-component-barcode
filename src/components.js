@@ -94,6 +94,24 @@ export default (editor, opts = {}) => {
         name: "bottom",
       },
     ],
+    rotation: [
+      {
+        id: "N",
+        name: "0deg",
+      },
+      {
+        id: "L",
+        name: "90deg",
+      },
+      {
+        id: "B",
+        name: "180deg",
+      },
+      {
+        id: "R",
+        name: "270deg",
+      },
+    ],
     displayValue: true,
   };
 
@@ -162,6 +180,7 @@ export default (editor, opts = {}) => {
           textMargin: this.get("textMargin"),
           textAlign: this.get("textAlign"),
           textPosition: this.get("textPosition"),
+          rotation: this.get("rotation"),
         });
         this.set({
           src: `${opts.api}?code=${this.get("code")}&${params.toString()}`,
