@@ -100,7 +100,7 @@ export default (editor, opts = {}) => {
         name: "0deg",
       },
       {
-        id: "L",
+        id: "R",
         name: "90deg",
       },
       {
@@ -108,7 +108,7 @@ export default (editor, opts = {}) => {
         name: "180deg",
       },
       {
-        id: "R",
+        id: "L",
         name: "270deg",
       },
     ],
@@ -146,6 +146,7 @@ export default (editor, opts = {}) => {
   barcodeProps.format = "CODE128";
   barcodeProps.textAlign = "center";
   barcodeProps.textPosition = "bottom";
+  barcodeProps.rotation = "N";
 
   domc.addType(cmpId, {
     extend: "image",
