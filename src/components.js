@@ -130,6 +130,18 @@ export default (editor, opts = {}) => {
         ? { label: "Bar Width(px)" }
         : name === "height"
         ? { label: "Bar Height(px)" }
+        : name === "lineColor"
+        ? { label: "Line Color" }
+        : name === "fontSize"
+        ? { label: "Font Size(px)" }
+        : name === "textMargin"
+        ? { label: "Text Margin(px)" }
+        : name === "textAlign"
+        ? { label: "Text Align" }
+        : name === "textPosition"
+        ? { label: "Text Position" }
+        : name === "displayValue"
+        ? { label: "Display Value" }
         : {};
     return {
       changeProp: 1,
