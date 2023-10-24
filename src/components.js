@@ -65,7 +65,7 @@ export default (editor, opts = {}) => {
   const barcodeProps = {
     format: formats,
     code: "123456789012",
-    lineColor: "#0aa",
+    lineColor: "#000000",
     width: 2,
     height: 100,
     fontSize: 20,
