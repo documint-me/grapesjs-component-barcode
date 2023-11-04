@@ -174,8 +174,12 @@ export default (editor, opts = {}) => {
       init() {
         const events = traits.map((i) => `change:${i.name}`).join(" ");
         this.on(events, this.generateBarcodeImage);
-        this.on("change:format", this.setDefaults);
+        this.on("change:format", () => {
+          this.setDefaults();
+          this.setDefaultsPlaceholder();
+        });
         this.on("change:code", this.validateBarcode);
+        this.on("change:placeholder", this.validatePlaceholder);
         this.on("change:code change:width change:height", this.setAspectRatio);
         this.generateBarcodeImage();
         this.setAspectRatio();
@@ -211,10 +215,29 @@ export default (editor, opts = {}) => {
         }
       },
 
+      validatePlaceholder() {
+        const canvas = document.createElement("canvas");
+        try {
+          Barcode(canvas, this.get("placeholder"), {
+            format: this.get("format"),
+          });
+          return true;
+        } catch (error) {
+          this.setDefaultsPlaceholder();
+          return false;
+        }
+      },
+
       setDefaults() {
         const format = this.get("format");
         const code = formats.find((f) => f.id === format).default;
         this.set({ code });
+      },
+
+      setDefaultsPlaceholder() {
+        const format = this.get("format");
+        const placeholder = formats.find((f) => f.id === format).default;
+        this.set({ placeholder });
       },
 
       getAscpectRatio() {
